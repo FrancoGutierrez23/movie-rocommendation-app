@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import SearchMovies from './SearchMovies';
 import MoviesList from './MoviesList';
 import Filters from './Filters';
+import MovieModalNavigator from './MovieModalNavigator';
+import MovieCarousel from './MovieCarousel';
 import { fetchMovies } from '../redux/movies/moviesSlice';
 import { AppDispatch } from '../redux/store/store';
 import MovieDetailsModal from './MovieDetailsModal';
@@ -12,9 +14,8 @@ const Layout = () => {
   const [selectedMovie, setSelectedMovie] = useState<any | null>(null);
   const [order, setOrder] = useState<string>('');
 
-  // Fetch default movies on component mount
   useEffect(() => {
-    dispatch(fetchMovies('')); 
+    dispatch(fetchMovies(''));
   }, [dispatch]);
 
   return (
@@ -29,10 +30,15 @@ const Layout = () => {
         <MoviesList order={order} onMovieSelect={setSelectedMovie} />
       </main>
       {selectedMovie && (
-        <MovieDetailsModal movie={selectedMovie} onClose={() => setSelectedMovie(null)} />
+        <>
+          <MovieDetailsModal movie={selectedMovie} onClose={() => setSelectedMovie(null)} />
+          <MovieModalNavigator currentMovieId={selectedMovie.id} />
+        </>
       )}
+      <MovieCarousel />
     </div>
   );
 };
+
 
 export default Layout;

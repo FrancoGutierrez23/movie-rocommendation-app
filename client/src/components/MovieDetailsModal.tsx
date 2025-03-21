@@ -17,4 +17,5 @@ const MovieDetailsModal = ({ movie, onClose }: MovieModalProps) => {
   );
 };
 
+
 export default MovieDetailsModal;
