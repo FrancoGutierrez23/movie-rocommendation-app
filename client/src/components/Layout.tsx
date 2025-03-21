@@ -26,6 +26,7 @@ const Layout = () => {
       <aside className="mb-4">
         <Filters onOrderChange={setOrder} />
       </aside>
+      <MovieCarousel />
       <main>
         <MoviesList order={order} onMovieSelect={setSelectedMovie} />
       </main>
@@ -35,7 +36,6 @@ const Layout = () => {
           <MovieModalNavigator currentMovieId={selectedMovie.id} />
         </>
       )}
-      <MovieCarousel />
     </div>
   );
 };
