@@ -1,10 +1,9 @@
-import SearchMovies from './components/SearchMovies';
+import Layout from "./components/Layout";
 
 function App() {
   return (
     <div className="App">
-      <h1 className="text-center text-3xl mt-8">Movie Recommendation App</h1>
-      <SearchMovies />
+      <Layout />
     </div>
   );
 }

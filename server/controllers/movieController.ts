@@ -23,12 +23,13 @@ const fetchFromTMDB = async (url: string, params: object) => {
 // Controller for searching movies
 export const searchMovies = async (req: Request, res: Response): Promise<void> => {
   const query = req.query.query as string;
-  if (!query) {
-    res.status(400).json({ error: 'Query parameter "query" is required' });
-    return;
-  }
 
   try {
+    if (!query) {
+      const data = await fetchFromTMDB(`${TMDB_BASE_URL}/movie/popular`, {});
+      res.json(data);
+      return;
+    }
     const data = await fetchFromTMDB(`${TMDB_BASE_URL}/search/movie`, { query });
     res.json(data);
   } catch (error) {

@@ -1,38 +1,32 @@
 import { useState } from 'react';
-import api from '../api';
+import { useDispatch } from 'react-redux';
+import { fetchMovies } from '../redux/movies/moviesSlice';
+import { AppDispatch } from '../redux/store/store';
 
 const SearchMovies = () => {
   const [query, setQuery] = useState('');
-  const [movies, setMovies] = useState<any[]>([]);
-  const [error, setError] = useState('');
+  const dispatch = useDispatch<AppDispatch>();
 
-  const handleSearch = async () => {
-    try {
-      const response = await api.get('/search', { params: { query } });
-      setMovies(response.data.results);
-    } catch (err) {
-      setError('Failed to fetch movies.');
-      console.error(err);
-    }
+  const handleSearch = () => {
+    console.log(query);
+    dispatch(fetchMovies(query));
   };
 
   return (
-    <div>
+    <div className="flex items-center gap-2">
       <input
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search movies..."
+        className="border p-1 rounded"
       />
-      <button onClick={handleSearch}>Search</button>
-      {error && <p>{error}</p>}
-      <ul>
-        {movies.map((movie) => (
-          <li key={movie.id}>{movie.title}</li>
-        ))}
-      </ul>
+      <button onClick={handleSearch} className="bg-blue-500 text-white p-1 rounded">
+        Search
+      </button>
     </div>
   );
 };
 
 export default SearchMovies;
+
