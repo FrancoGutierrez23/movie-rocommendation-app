@@ -1,9 +1,10 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store/store';
-import { Movie } from '../types/Movie';
+import { Movie as MovieType } from '../types/Movie';
+import Movie from './Movie';
 
 interface MoviesListProps {
-  onMovieSelect: (movie: Movie) => void;
+  onMovieSelect: (movie: MovieType) => void;
   order: string;
 }
 
@@ -34,12 +35,8 @@ const MoviesList = ({ onMovieSelect, order }: MoviesListProps) => {
   return (
     <ul className="grid grid-cols-2 md:grid-cols-4 gap-4">
       {sortedMovies.map((movie) => (
-        <li
-          key={movie.id}
-          className="border p-2 cursor-pointer hover:shadow-lg"
-          onClick={() => onMovieSelect(movie)}
-        >
-          <h3 className="font-bold">{movie.title}</h3>
+        <li key={movie.id}>
+          <Movie movie={movie} onSelect={onMovieSelect} />
         </li>
       ))}
     </ul>
