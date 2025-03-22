@@ -82,8 +82,8 @@ export const getMovieRecommendations = async (req: Request, res: Response): Prom
 export const getRelatedMovies = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
   try {
-    const currentMovieData = await fetchFromTMDB(`/movie/${id}`, { language: 'en-US', page: 1 });
-    const relatedData = await fetchFromTMDB(`/movie/${id}/similar`, { language: 'en-US', page: 1 });
+    const currentMovieData = await fetchFromTMDB(`${TMDB_BASE_URL}/movie/${id}`, { language: 'en-US', page: 1 });
+    const relatedData = await fetchFromTMDB(`${TMDB_BASE_URL}/movie/${id}/similar`, { language: 'en-US', page: 1 });
     
     // Update the global graph cache
     updateMovieGraph(currentMovieData, relatedData.results);
@@ -93,6 +93,7 @@ export const getRelatedMovies = async (req: Request, res: Response): Promise<voi
     
     res.json({ relatedMovies: relatedMovies.map(movie => ({ id: movie.id, title: movie.title })) });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: 'Failed to fetch related movies' });
   }
 };
