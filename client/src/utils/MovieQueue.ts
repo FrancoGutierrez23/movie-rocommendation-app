@@ -1,4 +1,3 @@
-// client/src/utils/MovieQueue.ts
 export class MovieQueue<T> {
   private queue: T[] = [];
 

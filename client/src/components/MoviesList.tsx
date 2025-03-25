@@ -9,7 +9,10 @@ interface MoviesListProps {
 }
 
 const MoviesList = ({ onMovieSelect, order }: MoviesListProps) => {
-  const { movies, loading, error } = useSelector((state: RootState) => state.movies);
+  const { byId, allIds, loading, error } = useSelector((state: RootState) => state.movies);
+
+  // Reconstruct the movies array from the normalized state
+  const movies = allIds.map(id => byId[id]);
 
   let sortedMovies = [...movies];
 
