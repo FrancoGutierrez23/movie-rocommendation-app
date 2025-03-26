@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import SearchMovies from './SearchMovies';
-import MoviesList from './MoviesList';
 import Filters from './Filters';
 import MovieCarousel from './MovieCarousel';
 import { fetchMovies } from '../redux/movies/moviesSlice';
@@ -9,6 +8,8 @@ import { AppDispatch } from '../redux/store/store';
 import MovieModal from './MovieModal';
 import { Movie as MovieType } from '../types/Movie';
 import { openModal } from '../redux/modal/modalSlice';
+import MoviesCarousel from './MoviesCarousel';
+import Home from './Home';
 
 const Layout = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -32,7 +33,8 @@ const Layout = () => {
       </aside>
       <MovieCarousel />
       <main>
-        <MoviesList order={order} onMovieSelect={handleMovieSelect} />
+        <MoviesCarousel order={order} onMovieSelect={handleMovieSelect} />
+        <Home />
       </main>
         <MovieModal />
     </div>

@@ -97,3 +97,66 @@ export const getRelatedMovies = async (req: Request, res: Response): Promise<voi
     res.status(500).json({ error: 'Failed to fetch related movies' });
   }
 };
+
+// Controller for getting on theatres movies
+export const getNowPlayingMovies = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const response = await axios.get(`${TMDB_BASE_URL}/movie/now_playing?language=en-US&page=1`, {
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('TMDB API error:', error);
+    throw error;
+  }
+}
+
+
+// Controller for getting a list of movies ordered by popularity
+export const getPopular = async (re: Request, res: Response): Promise<void> => {
+  try {
+    const response = await axios.get(`${TMDB_BASE_URL}/movie/popular?language=en-US&page=1`, {
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('TMDB API error:', error);
+    throw error;
+  }
+}
+
+
+// Controller for getting a list of movies ordered by rating
+export const getTopRated = async (re: Request, res: Response): Promise<void> => {
+  try {
+    const response = await axios.get(`${TMDB_BASE_URL}/movie/top_rated?language=en-US&page=1`, {
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('TMDB API error:', error);
+    throw error;
+  }
+}
+
+
+// Controller for getting a list of movies that are being released soon
+export const getUpcoming = async (re: Request, res: Response): Promise<void> => {
+  try {
+    const response = await axios.get(`${TMDB_BASE_URL}/movie/upcoming?language=en-US&page=1`, {
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('TMDB API error:', error);
+    throw error;
+  }
+}

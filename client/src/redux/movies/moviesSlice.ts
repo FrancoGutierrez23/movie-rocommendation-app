@@ -28,9 +28,26 @@ export const fetchMovieDetails = createAsyncThunk(
   }
 );
 
+// New thunk to fetch movies by category (endpoint should be one of: '/top_rated', '/upcoming', '/popular', '/now_playing')
+export const fetchMoviesByCategory = createAsyncThunk(
+  'movies/fetchMoviesByCategory',
+  async (endpoint: string, { rejectWithValue }) => {
+    try {
+      const response = await api.get(endpoint);
+      return { movies: response.data.results as Movie[], category: endpoint };
+    } catch (error) {
+      return rejectWithValue('Failed to fetch movies by category');
+    }
+  }
+);
+
 interface MoviesState {
   byId: { [key: number]: Movie };
   allIds: number[];
+  topRated: number[];
+  upcoming: number[];
+  popular: number[];
+  nowPlaying: number[];
   loading: boolean;
   error: string;
 }
@@ -38,6 +55,10 @@ interface MoviesState {
 const initialState: MoviesState = {
   byId: {},
   allIds: [],
+  topRated: [],
+  upcoming: [],
+  popular: [],
+  nowPlaying: [],
   loading: false,
   error: '',
 };
@@ -79,6 +100,36 @@ const moviesSlice = createSlice({
         }
       })
       .addCase(fetchMovieDetails.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // Handle fetchMoviesByCategory thunk
+      .addCase(fetchMoviesByCategory.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchMoviesByCategory.fulfilled, (state, action) => {
+        state.loading = false;
+        const movieIds: number[] = [];
+        // Update normalized store and collect IDs
+        action.payload.movies.forEach((movie) => {
+          state.byId[movie.id] = movie;
+          if (!state.allIds.includes(movie.id)) {
+            state.allIds.push(movie.id);
+          }
+          movieIds.push(movie.id);
+        });
+        // Update the corresponding category array based on the endpoint
+        if (action.payload.category === '/top_rated') {
+          state.topRated = movieIds;
+        } else if (action.payload.category === '/upcoming') {
+          state.upcoming = movieIds;
+        } else if (action.payload.category === '/popular') {
+          state.popular = movieIds;
+        } else if (action.payload.category === '/now_playing') {
+          state.nowPlaying = movieIds;
+        }
+      })
+      .addCase(fetchMoviesByCategory.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
