@@ -44,6 +44,7 @@ export const fetchMoviesByCategory = createAsyncThunk(
 interface MoviesState {
   byId: { [key: number]: Movie };
   allIds: number[];
+  searchResults: number[];
   topRated: number[];
   upcoming: number[];
   popular: number[];
@@ -55,6 +56,7 @@ interface MoviesState {
 const initialState: MoviesState = {
   byId: {},
   allIds: [],
+  searchResults: [],
   topRated: [],
   upcoming: [],
   popular: [],
@@ -62,6 +64,7 @@ const initialState: MoviesState = {
   loading: false,
   error: '',
 };
+
 
 const moviesSlice = createSlice({
   name: 'movies',
@@ -75,14 +78,18 @@ const moviesSlice = createSlice({
       })
       .addCase(fetchMovies.fulfilled, (state, action) => {
         state.loading = false;
+        // Clear previous search results
+        state.searchResults = [];
         // Add or update movies from the search results
         action.payload.forEach((movie) => {
           state.byId[movie.id] = movie;
+          state.searchResults.push(movie.id);
           if (!state.allIds.includes(movie.id)) {
             state.allIds.push(movie.id);
           }
         });
       })
+
       .addCase(fetchMovies.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;

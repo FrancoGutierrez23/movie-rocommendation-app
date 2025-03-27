@@ -2,17 +2,19 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store/store';
 import { Movie as MovieType } from '../types/Movie';
 import Movie from './Movie';
+import Filters from './Filters';
 
 interface MoviesListProps {
   onMovieSelect: (movie: MovieType) => void;
   order: string;
+  setOrder: any;
 }
 
-const MoviesList = ({ onMovieSelect, order }: MoviesListProps) => {
-  const { byId, allIds, loading, error } = useSelector((state: RootState) => state.movies);
+const MoviesList = ({ onMovieSelect, order, setOrder }: MoviesListProps) => {
+  const { byId, searchResults, loading, error } = useSelector((state: RootState) => state.movies);
 
   // Reconstruct the movies array from the normalized state
-  const movies = allIds.map(id => byId[id]);
+  const movies = searchResults.map(id => byId[id]);
 
   let sortedMovies = [...movies];
 
@@ -36,13 +38,18 @@ const MoviesList = ({ onMovieSelect, order }: MoviesListProps) => {
   }
 
   return (
-    <ul className="grid grid-cols-2 md:grid-cols-4 gap-4">
-      {sortedMovies.map((movie) => (
-        <li key={movie.id}>
-          <Movie movie={movie} onSelect={onMovieSelect} />
-        </li>
-      ))}
-    </ul>
+    <div>
+      <aside className="mb-4">
+        <Filters onOrderChange={setOrder} />
+      </aside>
+      <ul className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {sortedMovies.map((movie) => (
+          <li key={movie.id}>
+            <Movie movie={movie} onSelect={onMovieSelect} />
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 

@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { fetchMovies } from '../redux/movies/moviesSlice';
-import { AppDispatch } from '../redux/store/store';
 
-const SearchMovies = () => {
+interface SearchMoviesProps {
+  onSearch: (query: string) => void;
+}
+
+const SearchMovies = ({ onSearch }: SearchMoviesProps) => {
   const [query, setQuery] = useState('');
-  const dispatch = useDispatch<AppDispatch>();
 
   const handleSearch = () => {
     console.log(query);
-    dispatch(fetchMovies(query));
+    onSearch(query);
   };
 
   return (
@@ -29,4 +29,3 @@ const SearchMovies = () => {
 };
 
 export default SearchMovies;
-

@@ -1,9 +1,13 @@
 import SearchMovies from "./SearchMovies";
 
-const Header = () => {
+interface HeaderProps {
+    onSearch: (query: string) => void;
+  }
+
+const Header = ({onSearch}: HeaderProps) => {
     return (
-        <header className="fixed w-full flex p-4">
-            <SearchMovies />
+        <header className="fixed w-full flex p-4 z-10">
+            <SearchMovies onSearch={onSearch} />
         </header >
     )
 };
