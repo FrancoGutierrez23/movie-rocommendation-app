@@ -22,7 +22,7 @@ const Movie: React.FC<MovieProps> = ({ movie, onSelect }) => {
 
   return (
     <div
-      className="movie-item cursor-pointer w-[30vw] relative group hover:scale-105 hover:z-10 transition"
+      className="movie-item cursor-pointer w-[30vw] relative group hover:scale-105 transition"
       onClick={handleClick}
     >
       {/* Image container with hover effect */}

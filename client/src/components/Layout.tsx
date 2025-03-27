@@ -34,7 +34,7 @@ const Layout = () => {
   };
 
   return (
-    <div className="bg-transparent container mx-auto p-4">
+    <div className="bg-transparent container">
       <Header onSearch={handleSearch} />
       <MovieCarousel />
       <main>

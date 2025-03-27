@@ -63,7 +63,7 @@ const MoviesCarousel = ({ onMovieSelect, order }: MoviesCarouselProps) => {
       {/* Carousel */}
       <div
         ref={carouselRef}
-        className="flex overflow-x-auto space-x-4 scroll-smooth py-4"
+        className="flex overflow-x-hidden space-x-4 mask-fade-x scroll-smooth py-4"
       >
         {sortedMovies.map(movie => (
           <div key={movie.id} className="flex-shrink-0">

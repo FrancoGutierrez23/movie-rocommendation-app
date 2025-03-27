@@ -6,7 +6,7 @@ interface HeaderProps {
 
 const Header = ({onSearch}: HeaderProps) => {
     return (
-        <header className="fixed w-full flex p-4 z-10">
+        <header className="fixed w-[100vw] flex p-4 z-20 bg-black left-0">
             <SearchMovies onSearch={onSearch} />
         </header >
     )

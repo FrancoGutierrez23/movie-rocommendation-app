@@ -34,7 +34,7 @@ const ReusableMoviesCarousel: React.FC<ReusableMoviesCarouselProps> = ({ movies,
       </button>
 
       {/* Carousel */}
-      <div ref={carouselRef} className="flex overflow-x-auto space-x-4 scroll-smooth py-4">
+      <div ref={carouselRef} className="flex space-x-4 mask-fade-x overflow-x-hidden scroll-smooth py-4">
         {movies.map((movie) => (
           <div key={movie.id} className="flex-shrink-0">
             <Movie movie={movie} onSelect={onMovieSelect} />

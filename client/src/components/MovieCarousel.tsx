@@ -77,7 +77,7 @@ const MovieCarousel = () => {
   };
 
   return (
-    <div className="mt-4">
+    <div className="mt-4 pt-12">
       <h2>Movie Recommendation</h2>
       {currentMovie ? (
         <Movie movie={currentMovie} />
