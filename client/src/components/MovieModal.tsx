@@ -32,13 +32,18 @@ const MovieModal = () => {
     }
   }, [currentMovieId]);
 
+  const posterUrl =
+    movie?.backdrop_path && movie.backdrop_path.length > 9
+      ? `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`
+      : `https://image.tmdb.org/t/p/w500${movie?.poster_path}`;
+
   // Render nothing if no movie is selected
   if (!currentMovieId) return null;
 
   if (!movie) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <div className="bg-white p-6 rounded shadow-lg max-w-lg w-full">
+        <div className="bg-black p-6 rounded shadow-lg max-w-lg w-full">
           <p>Loading movie details...</p>
         </div>
       </div>
@@ -46,17 +51,24 @@ const MovieModal = () => {
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-6 rounded shadow-lg max-w-lg w-full">
-        <div className="flex justify-between items-center">
+    <div className="fixed mt-6 inset-0 z-10 flex items-center rounded-sm justify-center bg-black bg-opacity-50">
+      <div className=" bg-gray-800 flex flex-col no-scrollbar overflow-auto p-5 h-[85%] rounded-sm shadow-lg max-w-lg w-full">
+        <div className="flex justify-between items-center rounded-sm">
           <h2 className="text-2xl font-bold mb-2">{movie.title}</h2>
           <button
             onClick={() => dispatch(closeModal())}
-            className="text-red-500 font-bold"
+            className="text-red-500 font-bold hover:scale-110 transition p-2 text-xl"
           >
             X
           </button>
+          
         </div>
+        <img
+          src={posterUrl}
+          alt={movie.title}
+          className="m-2 rounded-sm"
+        />
+        
         <p>{movie.overview}</p>
 
         {/* Display Related Movies */}
@@ -67,7 +79,7 @@ const MovieModal = () => {
               {relatedMovies.slice(0, 5).map((related) => (
                 <li key={related.id}>
                   <button
-                    className="bg-gray-200 p-2 rounded"
+                    className="bg-gray-900 p-2 rounded"
                     onClick={() => dispatch(openModal(related.id))}
                   >
                     {related.title}
@@ -81,7 +93,7 @@ const MovieModal = () => {
         <div className="mt-4">
           <button
             onClick={() => dispatch(goBack())}
-            className="bg-gray-300 p-1 rounded"
+            className="bg-gray-900 p-1 rounded"
             disabled={history.length === 0}
           >
             Back
