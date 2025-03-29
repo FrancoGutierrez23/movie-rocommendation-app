@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import MovieCarousel from './MovieCarousel';
 import { fetchMovies } from '../redux/movies/moviesSlice';
 import { AppDispatch } from '../redux/store/store';
 import MovieModal from './MovieModal';
@@ -36,15 +35,14 @@ const Layout = () => {
   return (
     <div className="bg-transparent container">
       <Header onSearch={handleSearch} />
-      <MovieCarousel />
-      <main>
+      <main className='pt-20'>
         {searchQuery ? (
           // Render search results when there's a search query
           <MoviesList order={order} setOrder={setOrder} onMovieSelect={handleMovieSelect} />
         ) : (
           // Render Home and MoviesCarousel when no search query exists
           <>
-            <MoviesCarousel order={order} onMovieSelect={handleMovieSelect} />
+            <MoviesCarousel />
             <Home />
           </>
         )}

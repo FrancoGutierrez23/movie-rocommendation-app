@@ -1,45 +1,47 @@
-import { useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store/store';
-import { Movie as MovieType } from '../types/Movie';
-import Movie from './Movie';
+import SingleMovie from './SingleMovie';
+import shuffleMovies from '../utils/componentsFunctions';
 
-interface MoviesCarouselProps {
-  onMovieSelect: (movie: MovieType) => void;
-  order: string;
-}
+const MoviesCarousel = () => {
+  const { byId, allIds, loading, error } = useSelector(
+    (state: RootState) => state.movies
+  );
 
-const MoviesCarousel = ({ onMovieSelect, order }: MoviesCarouselProps) => {
-  const { byId, allIds, loading, error } = useSelector((state: RootState) => state.movies);
-  const carouselRef = useRef<HTMLDivElement>(null);
+  // Get and shuffle movies
+  const unsortedMovies = allIds.map((id) => byId[id]);
+  const movies = shuffleMovies(unsortedMovies);
 
-  // Reconstruct the movies array from the normalized state
-  const movies = allIds.map(id => byId[id]);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  let sortedMovies = [...movies];
+  // Auto-change movie every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextMovie();
+    }, 5000);
 
-  // Apply sorting based on the selected order
-  if (order === 'title-asc') {
-    sortedMovies.sort((a, b) => a.title.localeCompare(b.title));
-  } else if (order === 'title-desc') {
-    sortedMovies.sort((a, b) => b.title.localeCompare(a.title));
-  } else if (order === 'rating-asc') {
-    sortedMovies.sort((a, b) => (a.vote_average || 0) - (b.vote_average || 0));
-  } else if (order === 'rating-desc') {
-    sortedMovies.sort((a, b) => (b.vote_average || 0) - (a.vote_average || 0));
-  }
+    return () => clearInterval(interval);
+  }, [currentIndex]);
 
-  const scrollLeft = () => {
-    if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: -300, behavior: 'smooth' });
-    }
+  // Show next movie
+  const nextMovie = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === movies.length - 1 ? 0 : prevIndex + 1
+    );
   };
 
-  const scrollRight = () => {
-    if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: 300, behavior: 'smooth' });
-    }
+  // Show previous movie
+  const prevMovie = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? movies.length - 1 : prevIndex - 1
+    );
   };
+
+  const posterUrl =
+        movies[currentIndex]?.backdrop_path && movies[currentIndex]?.backdrop_path.length > 9
+            ? `https://image.tmdb.org/t/p/original${movies[currentIndex]?.backdrop_path}`
+            : `https://image.tmdb.org/t/p/original${movies[currentIndex]?.poster_path}`;
 
   if (loading) {
     return <div>Loading movies...</div>;
@@ -50,33 +52,31 @@ const MoviesCarousel = ({ onMovieSelect, order }: MoviesCarouselProps) => {
   }
 
   return (
-    <div className="relative">
+    <div 
+      className="relative w-full h-96 flex justify-center items-center bg-cover bg-center rounded-sm" 
+      style={{ backgroundImage: `url(${posterUrl})` }} >
       {/* Left Arrow */}
       <button
-        onClick={scrollLeft}
-        className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white bg-opacity-75 rounded-full p-2 shadow hover:bg-opacity-100"
-        aria-label="Scroll left"
+        onClick={prevMovie}
+        className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-transparent bg-opacity-75 rounded-full p-3 text-5xl shadow hover:bg-opacity-100 hover:scale-110 transition"
+        aria-label="Previous movie"
       >
         &#8249;
       </button>
 
-      {/* Carousel */}
-      <div
-        ref={carouselRef}
-        className="flex overflow-x-hidden space-x-4 mask-fade-x scroll-smooth py-4"
-      >
-        {sortedMovies.map(movie => (
-          <div key={movie.id} className="flex-shrink-0">
-            <Movie movie={movie} onSelect={onMovieSelect} />
-          </div>
-        ))}
-      </div>
+      {/* Movie Display */}
+      {movies.length > 0 && (
+        <div className="w-full">
+          <SingleMovie movie={movies[currentIndex]} />
+        </div>
+      )}
 
-      {/* Right Arrow */}
+      {/* Right Arrow */}{/*onClick={nextMovie}*/}
       <button
-        onClick={scrollRight}
-        className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white bg-opacity-75 rounded-full p-2 shadow hover:bg-opacity-100"
-        aria-label="Scroll right"
+        
+        className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-transparent bg-opacity-75 rounded-full p-3 text-5xl shadow hover:bg-opacity-100 hover:scale-110 transition"
+        aria-label="Next movie"
+        onClick={nextMovie}
       >
         &#8250;
       </button>
