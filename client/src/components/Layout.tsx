@@ -33,7 +33,7 @@ const Layout = () => {
   };
 
   return (
-    <div className="bg-transparent container w-[100vw]">
+    <div className="bg-transparent">
       <Header onSearch={handleSearch} />
       <main className='pt-14'>
         {searchQuery ? (
