@@ -19,7 +19,7 @@ const MoviesCarousel = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       nextMovie();
-    }, 5000);
+    }, 500000);
 
     return () => clearInterval(interval);
   }, [currentIndex]);
@@ -38,11 +38,6 @@ const MoviesCarousel = () => {
     );
   };
 
-  const posterUrl =
-        movies[currentIndex]?.backdrop_path && movies[currentIndex]?.backdrop_path.length > 9
-            ? `https://image.tmdb.org/t/p/original${movies[currentIndex]?.backdrop_path}`
-            : `https://image.tmdb.org/t/p/original${movies[currentIndex]?.poster_path}`;
-
   if (loading) {
     return <div>Loading movies...</div>;
   }
@@ -51,37 +46,38 @@ const MoviesCarousel = () => {
     return <div className="text-red-500">Error: {error}</div>;
   }
 
-  return (
-    <div 
-      className="relative w-full h-96 flex justify-center items-center bg-cover bg-center rounded-sm" 
-      style={{ backgroundImage: `url(${posterUrl})` }} >
-      {/* Left Arrow */}
-      <button
-        onClick={prevMovie}
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-transparent bg-opacity-75 rounded-full p-3 text-5xl shadow hover:bg-opacity-100 hover:scale-110 transition"
-        aria-label="Previous movie"
-      >
-        &#8249;
-      </button>
+  // Remove backgroundImage from this container
+return (
+  <div className="absolute left-0 w-full h-96 flex justify-center items-center rounded-sm">
+    {/* Left Arrow */}
+    <button
+      onClick={prevMovie}
+      className="absolute left-4 top-1/2 transform -translate-y-1/2 z-30 bg-transparent 
+      bg-opacity-75 rounded-full p-3 text-5xl  hover:bg-opacity-100 hover:scale-110 transition"
+      aria-label="Previous movie"
+    >
+      &#8249;
+    </button>
 
-      {/* Movie Display */}
-      {movies.length > 0 && (
-        <div className="w-full">
-          <SingleMovie movie={movies[currentIndex]} />
-        </div>
-      )}
+    {/* Movie Display */}
+    {movies.length > 0 && (
+      <div className="w-full">
+        <SingleMovie movie={movies[currentIndex]} />
+      </div>
+    )}
 
-      {/* Right Arrow */}{/*onClick={nextMovie}*/}
-      <button
-        
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-transparent bg-opacity-75 rounded-full p-3 text-5xl shadow hover:bg-opacity-100 hover:scale-110 transition"
-        aria-label="Next movie"
-        onClick={nextMovie}
-      >
-        &#8250;
-      </button>
-    </div>
-  );
+    {/* Right Arrow */}
+    <button
+      onClick={nextMovie}
+      className="absolute right-4 top-1/2 transform -translate-y-1/2 z-30 bg-transparent 
+      bg-opacity-75 rounded-full p-3 text-5xl hover:bg-opacity-100 hover:scale-110 transition"
+      aria-label="Next movie"
+    >
+      &#8250;
+    </button>
+  </div>
+);
+
 };
 
 export default MoviesCarousel;

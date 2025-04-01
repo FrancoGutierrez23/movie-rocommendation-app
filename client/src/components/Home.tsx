@@ -38,7 +38,7 @@ const HomePage = () => {
   }
 
   return (
-    <div>
+    <div className='mt-96'>
       <h2 className="text-2xl font-bold mb-4">Top Rated</h2>
       <ReusableMoviesCarousel movies={topRatedMovies} onMovieSelect={handleMovieSelect} />
 

@@ -33,9 +33,9 @@ const Layout = () => {
   };
 
   return (
-    <div className="bg-transparent container">
+    <div className="bg-transparent container w-[100vw]">
       <Header onSearch={handleSearch} />
-      <main className='pt-20'>
+      <main className='pt-14'>
         {searchQuery ? (
           // Render search results when there's a search query
           <MoviesList order={order} setOrder={setOrder} onMovieSelect={handleMovieSelect} />
