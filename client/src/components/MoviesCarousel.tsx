@@ -62,7 +62,7 @@ return (
     {/* Movie Display */}
     {movies.length > 0 && (
       <div className="w-full">
-        <SingleMovie movie={movies[currentIndex]} />
+        <SingleMovie movie={movies[currentIndex]} isModal={false} />
       </div>
     )}
 

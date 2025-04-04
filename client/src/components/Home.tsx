@@ -20,7 +20,6 @@ const HomePage = () => {
 
   const handleMovieSelect = (movie: any) => {
     console.log('Selected movie:', movie);
-    // Additional logic here...
   };
 
   // Map movie IDs to movie objects for each category

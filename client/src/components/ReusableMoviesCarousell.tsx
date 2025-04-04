@@ -4,10 +4,9 @@ import Movie from './Movie';
 
 interface ReusableMoviesCarouselProps {
   movies: MovieType[];
-  onMovieSelect: (movie: MovieType) => void;
 }
 
-const ReusableMoviesCarousel: React.FC<ReusableMoviesCarouselProps> = ({ movies, onMovieSelect }) => {
+const ReusableMoviesCarousel: React.FC<ReusableMoviesCarouselProps> = ({ movies }) => {
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const scrollLeft = () => {
@@ -39,7 +38,7 @@ const ReusableMoviesCarousel: React.FC<ReusableMoviesCarouselProps> = ({ movies,
       py-4">
         {movies.map((movie) => (
           <div key={movie.id} className="flex-shrink-0">
-            <Movie movie={movie} onSelect={onMovieSelect} />
+            <Movie movie={movie} />
           </div>
         ))}
       </div>

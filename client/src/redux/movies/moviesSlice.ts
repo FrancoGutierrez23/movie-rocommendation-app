@@ -101,7 +101,10 @@ const moviesSlice = createSlice({
       .addCase(fetchMovieDetails.fulfilled, (state, action) => {
         state.loading = false;
         // Add or update the single movie details
-        state.byId[action.payload.id] = action.payload;
+        state.byId[action.payload.id] = {
+          ...action.payload,
+          fetchedFullDetails: true,
+        };
         if (!state.allIds.includes(action.payload.id)) {
           state.allIds.push(action.payload.id);
         }

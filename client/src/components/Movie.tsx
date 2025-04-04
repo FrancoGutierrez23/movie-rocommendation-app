@@ -1,18 +1,16 @@
 import { Movie as MovieType } from '../types/Movie';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from './hooks/hooks';
 import { openModal } from '../redux/modal/modalSlice';
 
 interface MovieProps {
   movie: MovieType;
-  onSelect?: (movie: MovieType) => void;
 }
 
-const Movie: React.FC<MovieProps> = ({ movie, onSelect }) => {
-  const dispatch = useDispatch();
+const Movie: React.FC<MovieProps> = ({ movie }) => {
+  const dispatch = useAppDispatch();
 
   const handleClick = () => {
     dispatch(openModal(movie.id));
-    onSelect?.(movie);
   };
 
   const posterUrl =
