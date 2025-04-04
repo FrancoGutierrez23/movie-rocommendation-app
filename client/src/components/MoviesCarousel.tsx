@@ -48,7 +48,7 @@ const MoviesCarousel = () => {
 
   // Remove backgroundImage from this container
 return (
-  <div className="absolute left-0 w-full h-96 flex justify-center items-center rounded-sm">
+  <div className="absolute left-0 w-full h-auto flex justify-center items-center rounded-sm">
     {/* Left Arrow */}
     <button
       onClick={prevMovie}

@@ -12,7 +12,7 @@ const SingleMovie: React.FC<MovieProps> = ({ movie, isModal }) => {
       : `https://image.tmdb.org/t/p/original${movie.poster_path}`;
 
   return (
-    <div className="relative h-96 w-full rounded-sm overflow-hidden">
+    <div className="relative h-120 w-full rounded-sm overflow-hidden">
       {/* Optimized Image */}
       <img
         src={posterUrl}

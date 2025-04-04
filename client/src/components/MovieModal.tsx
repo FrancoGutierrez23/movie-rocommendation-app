@@ -6,6 +6,8 @@ import { fetchMovieDetails } from '../redux/movies/moviesSlice';
 import { useAppDispatch } from './hooks/hooks';
 import movieGenres from './const/const';
 import SingleMovie from './SingleMovie';
+import { formatRuntime, getRatingColor } from '../utils/componentsFunctions';
+import { GrFormPreviousLink } from "react-icons/gr";
 
 
 const MovieModal = () => {
@@ -54,7 +56,7 @@ const MovieModal = () => {
 
 
       <div className="flex flex-col no-scrollbar overflow-auto h-[95%] relative
-           rounded-sm shadow-lg max-w-[95%] w-full bg-neutral-1000
+           rounded-sm shadow-lg max-w-3xl w-full bg-neutral-1000
            ">
         <div className="w-full">
           <SingleMovie movie={movie} isModal={true} />
@@ -65,10 +67,12 @@ const MovieModal = () => {
             onClick={() => dispatch(goBack())}
             className="text-gray-900 bg-white border border-gray-300 focus:outline-none 
             hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-full text-sm 
-            px-3 py-1  dark:bg-gray-800 dark:text-white dark:border-gray-600 transition
-            dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 z-600"
+            px-3 py-1  dark:bg-gray-800 dark:text-white dark:border-gray-600 transition flex
+            dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 z-600
+            items-center"
             disabled={history.length === 0}
           >
+            <GrFormPreviousLink className='text-lg mr-1' />
             Back
           </button>
           <button
@@ -101,15 +105,29 @@ const MovieModal = () => {
           </ul>
         </div>
 
+        <div className='relative flex w-full justify-end'>
+            <span className='absolute -top-16 z-600 mr-6'>
+              {movie.runtime? formatRuntime(movie.runtime) : null}
+            </span>
+        </div>
+
 
         <p>{movie.overview}</p>
 
         <div className='pt-2'>
-          <span>
-            Rating:
-            {` ${movie.vote_average}`}
-          </span>
-          <p>{movie.budget}</p>
+          {movie.vote_average?
+            <p>
+              Rating:
+              <span className={`text-sm font-bold ml-2 ${getRatingColor(movie.vote_average)}`}>
+                {movie.vote_average.toFixed(1)}
+              </span>
+              <span className='text-gray-400'>
+                {movie.vote_count? ` (${movie.vote_count})` : null}
+              </span>
+            </p>
+             :
+            null
+          }
         </div>
 
         {/* Display Related Movies */}

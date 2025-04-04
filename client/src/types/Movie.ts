@@ -17,4 +17,5 @@ export interface Movie {
     isModal?: boolean;
     budget?: number;
     fetchedFullDetails?: boolean;
+    runtime?: number;
   }
