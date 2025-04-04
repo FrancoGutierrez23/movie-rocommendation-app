@@ -32,8 +32,9 @@ export const formatRuntime = (minutes: number) => {
 export const getRatingColor = (rating: number) => {
   if (rating <= 4) return 'text-red-500';
   if (rating <= 5) return 'text-orange-700';
-  if (rating <= 6.9) return 'text-orange-400';
-  if (rating <= 8.5) return 'text-sky-400';
+  if (rating <= 6.9) return 'text-yellow-400';
+  if (rating <= 8) return 'text-green-600';
+  if (rating <= 8.5) return 'text-green-400';
   return 'text-blue-500';
 };
 

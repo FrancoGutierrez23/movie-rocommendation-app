@@ -1,16 +1,14 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store/store';
-import { Movie as MovieType } from '../types/Movie';
 import Movie from './Movie';
 import Filters from './Filters';
 
 interface MoviesListProps {
-  onMovieSelect: (movie: MovieType) => void;
   order: string;
   setOrder: any;
 }
 
-const MoviesList = ({ onMovieSelect, order, setOrder }: MoviesListProps) => {
+const MoviesList = ({ order, setOrder }: MoviesListProps) => {
   const { byId, searchResults, loading, error } = useSelector((state: RootState) => state.movies);
 
   // Reconstruct the movies array from the normalized state
@@ -45,7 +43,7 @@ const MoviesList = ({ onMovieSelect, order, setOrder }: MoviesListProps) => {
       <ul className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {sortedMovies.map((movie) => (
           <li key={movie.id}>
-            <Movie movie={movie} onSelect={onMovieSelect} />
+            <Movie movie={movie} />
           </li>
         ))}
       </ul>

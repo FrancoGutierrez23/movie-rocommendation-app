@@ -1,20 +1,20 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store/store';
-import { closeModal, goBack, openModal } from '../redux/modal/modalSlice';
-import { useEffect, useState } from 'react';
+import { closeModal, goBack } from '../redux/modal/modalSlice';
+import { useEffect } from 'react';
 import { fetchMovieDetails } from '../redux/movies/moviesSlice';
 import { useAppDispatch } from './hooks/hooks';
 import movieGenres from './const/const';
 import SingleMovie from './SingleMovie';
 import { formatRuntime, getRatingColor } from '../utils/componentsFunctions';
 import { GrFormPreviousLink } from "react-icons/gr";
+import RelatedMovies from './RelatedMovies';
 
 
 const MovieModal = () => {
   const dispatch = useAppDispatch();
   const { currentMovieId, history } = useSelector((state: RootState) => state.modal);
   const { byId } = useSelector((state: RootState) => state.movies);
-  const [relatedMovies, setRelatedMovies] = useState<any[]>([]);
 
   // Retrieve the movie details directly from byId
   const movie = currentMovieId ? byId[currentMovieId] : undefined;
@@ -25,24 +25,12 @@ const MovieModal = () => {
     }
   }, [currentMovieId, dispatch, movie]);
 
-  // Fetch related movies when currentMovieId changes
-  useEffect(() => {
-    if (currentMovieId && movie?.fetchedFullDetails) {
-      fetch(`/api/movies/${currentMovieId}/related`)
-        .then((res) => res.json())
-        .then((data) => {
-          setRelatedMovies(data.relatedMovies);
-        })
-        .catch((err) => console.error('Failed to fetch related movies:', err));
-    }
-  }, [currentMovieId, movie?.fetchedFullDetails]);
-
   // Render nothing if no movie is selected
   if (!currentMovieId) return null;
 
   if (!movie) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="fixed w-full h-full z-600 inset-0 flex items-center justify-center bg-black bg-opacity-50">
         <div className="bg-black p-6 rounded shadow-lg max-w-lg w-full">
           <p>Loading movie details...</p>
         </div>
@@ -62,7 +50,7 @@ const MovieModal = () => {
           <SingleMovie movie={movie} isModal={true} />
         </div>
 
-        <div className="absolute w-full px-3 flex justify-between">
+        <div className="fixed sm:absolute w-full pt-1 px-3 flex justify-between z-[999]">
           <button
             onClick={() => dispatch(goBack())}
             className="text-gray-900 bg-white border border-gray-300 focus:outline-none 
@@ -106,49 +94,34 @@ const MovieModal = () => {
         </div>
 
         <div className='relative flex w-full justify-end'>
-            <span className='absolute -top-16 z-600 mr-6'>
-              {movie.runtime? formatRuntime(movie.runtime) : null}
-            </span>
+          <span className='absolute -top-16 z-600 mr-6'>
+            {movie.runtime ? formatRuntime(movie.runtime) : null}
+          </span>
         </div>
 
 
-        <p>{movie.overview}</p>
+        <p className='px-4'>
+          {movie.overview}
+        </p>
 
-        <div className='pt-2'>
-          {movie.vote_average?
+        <div className='pt-2 px-4'>
+          {movie.vote_average ?
             <p>
               Rating:
               <span className={`text-sm font-bold ml-2 ${getRatingColor(movie.vote_average)}`}>
                 {movie.vote_average.toFixed(1)}
               </span>
               <span className='text-gray-400'>
-                {movie.vote_count? ` (${movie.vote_count})` : null}
+                {movie.vote_count ? ` (${movie.vote_count})` : null}
               </span>
             </p>
-             :
+            :
             null
           }
         </div>
 
-        {/* Display Related Movies */}
-        {relatedMovies.length > 1 && (
-          <div className="mt-4">
-            <h4 className="text-md font-semibold mb-2">If you liked {`"${movie.title}" . . .`}</h4>
+        <RelatedMovies currentMovieId={currentMovieId} movie={movie} />
 
-            <ul className="flex flex-wrap gap-2">
-              {relatedMovies.slice(0, 5).map((related) => (
-                <li key={related.id} className='hover:scale-105 transition'>
-                  <button
-                    className="bg-gray-900 p-2 rounded"
-                    onClick={() => dispatch(openModal(related.id))}
-                  >
-                    {related.title}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </div>
     </div>
   );
