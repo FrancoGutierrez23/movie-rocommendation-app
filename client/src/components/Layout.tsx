@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { fetchMovies } from '../redux/movies/moviesSlice';
 import { AppDispatch } from '../redux/store/store';
 import MovieModal from './MovieModal';
-import MoviesCarousel from './MoviesCarousel';
+import HeroCarousel from './HeroCarousel';
 import Home from './Home';
 import MoviesList from './MoviesList';
 import Header from './Header';
@@ -29,14 +29,14 @@ const Layout = () => {
   return (
     <div className="bg-transparent">
       <Header onSearch={handleSearch} />
-      <main className='pt-14'>
+      <main className='pt-12'>
         {searchQuery ? (
           // Render search results when there's a search query
           <MoviesList order={order} setOrder={setOrder} />
         ) : (
           // Render Home and MoviesCarousel when no search query exists
           <div>
-            <MoviesCarousel />
+            <HeroCarousel />
             <div className='w-full flex justify-center'>
               <Home />
             </div>

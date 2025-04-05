@@ -33,7 +33,7 @@ const HomePage = () => {
   }
 
   return (
-    <div className='mt-[400px] w-full max-w-5xl px-[4%]'>
+    <div className='mt-10 w-full max-w-5xl px-[4%]'>
       <h2 className="text-2xl font-bold mb-4">Top Rated</h2>
       <ReusableMoviesCarousel movies={topRatedMovies} />
 

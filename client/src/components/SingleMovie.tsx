@@ -12,7 +12,7 @@ const SingleMovie: React.FC<MovieProps> = ({ movie, isModal }) => {
       : `https://image.tmdb.org/t/p/original${movie.poster_path}`;
 
   return (
-    <div className="relative h-[50vh] w-full rounded-sm overflow-hidden">
+    <div className="relative h-[90vh] w-auto rounded-sm overflow-hidden">
       {/* Optimized Image */}
       <img
         src={posterUrl}
@@ -34,7 +34,6 @@ const SingleMovie: React.FC<MovieProps> = ({ movie, isModal }) => {
         {isModal ?
           <div>
             <h2 className="text-2xl font-bold mb-2">{movie.title} {`(${movie.release_date?.slice(0, 4)})`}</h2>
-            
           </div>
           :<div>
             <h3 className="text-2xl font-semibold">{movie.title}</h3>
