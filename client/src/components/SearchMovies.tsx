@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ImSearch } from "react-icons/im";
 
 interface SearchMoviesProps {
   onSearch: (query: string) => void;
@@ -19,10 +20,11 @@ const SearchMovies = ({ onSearch }: SearchMoviesProps) => {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search movies..."
-        className="border p-1 rounded"
+        className="p-1 rounded border-b-1 border-pink-300 focus:outline-0"
       />
-      <button onClick={handleSearch} className="bg-blue-500 text-white p-1 rounded">
-        Search
+      <button onClick={handleSearch} className="text-white bg-gradient-to-r from-purple-500 to-pink-500 
+                  font-medium rounded-full p-2 text-center hover:scale-105 transition border-2 border-pink-400 cursor-pointer">
+        <ImSearch />
       </button>
     </div>
   );
