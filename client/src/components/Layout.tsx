@@ -3,8 +3,6 @@ import { useDispatch } from 'react-redux';
 import { fetchMovies } from '../redux/movies/moviesSlice';
 import { AppDispatch } from '../redux/store/store';
 import MovieModal from './MovieModal';
-import { Movie as MovieType } from '../types/Movie';
-import { openModal } from '../redux/modal/modalSlice';
 import MoviesCarousel from './MoviesCarousel';
 import Home from './Home';
 import MoviesList from './MoviesList';
@@ -22,10 +20,6 @@ const Layout = () => {
     }
   }, [dispatch, searchQuery]);
 
-  const handleMovieSelect = (movie: MovieType) => {
-    dispatch(openModal(movie.id));
-  };
-
   // This handler will be passed to the SearchMovies component
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -38,13 +32,15 @@ const Layout = () => {
       <main className='pt-14'>
         {searchQuery ? (
           // Render search results when there's a search query
-          <MoviesList order={order} setOrder={setOrder} onMovieSelect={handleMovieSelect} />
+          <MoviesList order={order} setOrder={setOrder} />
         ) : (
           // Render Home and MoviesCarousel when no search query exists
-          <>
+          <div>
             <MoviesCarousel />
-            <Home />
-          </>
+            <div className='w-full flex justify-center'>
+              <Home />
+            </div>
+          </div>
         )}
       </main>
       <MovieModal />

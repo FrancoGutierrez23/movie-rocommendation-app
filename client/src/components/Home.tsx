@@ -18,10 +18,6 @@ const HomePage = () => {
     dispatch(fetchMoviesByCategory('/now_playing'));
   }, [dispatch]);
 
-  const handleMovieSelect = (movie: any) => {
-    console.log('Selected movie:', movie);
-  };
-
   // Map movie IDs to movie objects for each category
   const topRatedMovies = topRated.map((id) => byId[id]);
   const upcomingMovies = upcoming.map((id) => byId[id]);
@@ -37,18 +33,18 @@ const HomePage = () => {
   }
 
   return (
-    <div className='mt-[400px] w-full px-[2%]'>
+    <div className='mt-[400px] w-full max-w-5xl px-[4%]'>
       <h2 className="text-2xl font-bold mb-4">Top Rated</h2>
-      <ReusableMoviesCarousel movies={topRatedMovies} onMovieSelect={handleMovieSelect} />
+      <ReusableMoviesCarousel movies={topRatedMovies} />
 
       <h2 className="text-2xl font-bold my-4">Upcoming</h2>
-      <ReusableMoviesCarousel movies={upcomingMovies} onMovieSelect={handleMovieSelect} />
+      <ReusableMoviesCarousel movies={upcomingMovies} />
 
       <h2 className="text-2xl font-bold my-4">Popular</h2>
-      <ReusableMoviesCarousel movies={popularMovies} onMovieSelect={handleMovieSelect} />
+      <ReusableMoviesCarousel movies={popularMovies} />
 
       <h2 className="text-2xl font-bold my-4">Now Playing</h2>
-      <ReusableMoviesCarousel movies={nowPlayingMovies} onMovieSelect={handleMovieSelect} />
+      <ReusableMoviesCarousel movies={nowPlayingMovies} />
     </div>
   );
 };

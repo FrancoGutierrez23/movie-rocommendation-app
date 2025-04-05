@@ -20,21 +20,20 @@ const Movie: React.FC<MovieProps> = ({ movie }) => {
 
   return (
     <div
-      className="movie-item cursor-pointer relative group hover:scale-105 transition"
+      className="movie-item cursor-pointer relative group transition"
       onClick={handleClick}
     >
       {/* Image container */}
       <div className="relative w-full h-0 pb-[56.25%] overflow-hidden">
         <img
           src={posterUrl}
-          alt={movie.title}
-          className="absolute rounded-sm top-0 left-0 w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-40"
+          alt={movie.title} 
+          className="absolute hover:scale-105 rounded-sm top-0 left-0 w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-40"
         />
 
         {/* Title: visible by default on mobile, only fades in on hover for sm+ */}
         <div className="absolute inset-0 flex items-center justify-center 
-                    opacity-100 sm:opacity-0 sm:group-hover:opacity-70 
-                    transition-opacity duration-300 bg-black/60 sm:bg-transparent">
+                    transition-opacity duration-300 bg-black/60">
           <h3 className="text-white text-lg font-bold text-center px-2">
             {movie.title}
           </h3>
@@ -43,9 +42,8 @@ const Movie: React.FC<MovieProps> = ({ movie }) => {
 
       {/* Overview: same logic, always shown on mobile, hover on sm+ */}
       {movie.overview && (
-        <p className="text-sm text-gray-100 line-clamp-2 mt-2
-                  opacity-100 sm:opacity-0 sm:group-hover:opacity-100 
-                  transition-opacity duration-300">
+        <p className="text-sm text-gray-100 line-clamp-3 mt-2
+                  transition-opacity duration-300 z-20">
           {movie.overview}
         </p>
       )}
