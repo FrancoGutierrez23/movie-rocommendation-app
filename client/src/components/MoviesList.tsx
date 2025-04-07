@@ -28,7 +28,7 @@ const MoviesList = ({ order, setOrder }: MoviesListProps) => {
   }
 
   if (loading) {
-    return <div>Loading movies...</div>;
+    return <div></div>;
   }
 
   if (error) {

@@ -31,7 +31,7 @@ const HomePage = () => {
   const nowPlayingMovies = nowPlaying.map((id) => byId[id]);
 
   if (loading) {
-    return <div>Loading movies...</div>;
+    return <div></div>;
   }
 
   if (error) {

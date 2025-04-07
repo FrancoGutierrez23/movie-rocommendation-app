@@ -22,7 +22,7 @@ const HeroCarousel: React.FC = () => {
       nextMovie();
     }, 10000); // changed to 5s for demonstration
     return () => clearInterval(interval);
-  }, [currentIndex]);
+  }, []);
 
   // Show next movie
   const nextMovie = () => {
@@ -31,15 +31,8 @@ const HeroCarousel: React.FC = () => {
     );
   };
 
-  // Show previous movie
-  const prevMovie = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? movies.length - 1 : prevIndex - 1
-    );
-  };
-
   if (loading) {
-    return <div>Loading movies...</div>;
+    return <div></div>;
   }
 
   if (error) {
@@ -55,8 +48,16 @@ const HeroCarousel: React.FC = () => {
     <div className="relative w-full h-auto">
       <Hero
         movie={movies[currentIndex]}
-        onNext={nextMovie}
-        onPrev={prevMovie}
+        onNext={() =>
+          setCurrentIndex((prevIndex) =>
+            prevIndex === movies.length - 1 ? 0 : prevIndex + 1
+          )
+        }
+        onPrev={() =>
+          setCurrentIndex((prevIndex) =>
+            prevIndex === 0 ? movies.length - 1 : prevIndex - 1
+          )
+        }
       />
     </div>
   );
