@@ -20,7 +20,7 @@ const ReusableMoviesCarousel: React.FC<ReusableMoviesCarouselProps> = ({ movies 
   
   // Start at the beginning of the middle block.
   const moviesLength = movies.length;
-  const [currentIndex, setCurrentIndex] = useState(moviesLength);
+  const [currentIndex, setCurrentIndex] = useState(Math.floor(Math.random() * moviesLength));
 
   // Function to center the movie element.
   const scrollToMovie = (index: number, behavior: ScrollBehavior = 'smooth') => {
