@@ -160,3 +160,21 @@ export const getUpcoming = async (re: Request, res: Response): Promise<void> => 
     throw error;
   }
 }
+
+
+// Controller for getting a list of movies that are being released soon
+export const getByGenre = async (req: Request, res: Response): Promise<void> => {
+  const {genre} = req.params;
+  try {
+    const response = await axios.get(`${TMDB_BASE_URL}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=${genre}`, {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${process.env.API_TOKEN}`,
+      },
+    });
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.error('TMDB API error:', error);
+    res.status(500).json({ error: 'Failed to fetch movies by genre' });
+  }
+}

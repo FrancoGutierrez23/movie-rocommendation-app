@@ -41,6 +41,19 @@ export const fetchMoviesByCategory = createAsyncThunk(
   }
 );
 
+// Thunk to fetch movies by genre
+export const fetchMoviesByGenre = createAsyncThunk(
+  'movies/fetchMoviesByGenre',
+  async (genre: string, { rejectWithValue }) => {
+    try {
+      const response = await api.get(`/getByGenre/${genre}`);
+      return { movies: response.data.results as Movie[], genre };
+    } catch (error) {
+      return rejectWithValue('Failed to fetch movies by genre');
+    }
+  }
+);
+
 interface MoviesState {
   byId: { [key: number]: Movie };
   allIds: number[];
@@ -49,6 +62,7 @@ interface MoviesState {
   upcoming: number[];
   popular: number[];
   nowPlaying: number[];
+  moviesByGenre: { [genre: string]: number[] };
   loading: boolean;
   error: string;
 }
@@ -61,6 +75,7 @@ const initialState: MoviesState = {
   upcoming: [],
   popular: [],
   nowPlaying: [],
+  moviesByGenre: {},
   loading: false,
   error: '',
 };
@@ -89,7 +104,6 @@ const moviesSlice = createSlice({
           }
         });
       })
-
       .addCase(fetchMovies.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
@@ -140,6 +154,28 @@ const moviesSlice = createSlice({
         }
       })
       .addCase(fetchMoviesByCategory.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // Handle fetchMoviesByGenre thunk
+      .addCase(fetchMoviesByGenre.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchMoviesByGenre.fulfilled, (state, action) => {
+        state.loading = false;
+        const movieIds: number[] = [];
+        // Update normalized store and collect IDs
+        action.payload.movies.forEach((movie) => {
+          state.byId[movie.id] = movie;
+          if (!state.allIds.includes(movie.id)) {
+            state.allIds.push(movie.id);
+          }
+          movieIds.push(movie.id);
+        });
+        // Store movie IDs under the specific genre key
+        state.moviesByGenre[action.payload.genre] = movieIds;
+      })
+      .addCase(fetchMoviesByGenre.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

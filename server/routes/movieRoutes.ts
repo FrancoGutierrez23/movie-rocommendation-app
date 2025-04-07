@@ -10,6 +10,7 @@ router.get('/:id/recommendations', movieController.getMovieRecommendations);
 router.get('/now_playing', movieController.getNowPlayingMovies);
 router.get('/popular', movieController.getPopular);
 router.get('/top_rated', movieController.getTopRated);
-router.get('upcoming', movieController.getUpcoming)
+router.get('/upcoming', movieController.getUpcoming);
+router.get('/getByGenre/:genre', movieController.getByGenre);
 
 export default router;
