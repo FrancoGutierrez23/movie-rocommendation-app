@@ -18,13 +18,15 @@ const Movie: React.FC<MovieProps> = ({ movie }) => {
       ? `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`
       : `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
 
+  
+
   return (
     <div
       className="movie-item cursor-pointer relative group transition"
       onClick={handleClick}
     >
       {/* Image container */}
-      <div className="relative w-full h-0 pb-[56.25%] overflow-hidden">
+      <div className="relative w-full h-0 pb-[56.25%] overflow-hidden rounded-sm">
         <img
           src={posterUrl}
           alt={movie.title} 

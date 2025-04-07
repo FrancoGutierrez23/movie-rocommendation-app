@@ -14,7 +14,7 @@ const MoviesList = ({ order, setOrder }: MoviesListProps) => {
   // Reconstruct the movies array from the normalized state
   const movies = searchResults.map(id => byId[id]);
 
-  let sortedMovies = [...movies];
+  let sortedMovies = [...movies].filter((movie) => {return movie.backdrop_path && movie.poster_path});
 
   // Apply sorting based on the selected order
   if (order === 'title-asc') {
@@ -36,13 +36,13 @@ const MoviesList = ({ order, setOrder }: MoviesListProps) => {
   }
 
   return (
-    <div>
+    <div className='p-5'>
       <aside className="mb-4">
         <Filters onOrderChange={setOrder} />
       </aside>
-      <ul className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         {sortedMovies.map((movie) => (
-          <li key={movie.id}>
+          <li key={movie.id} className=''>
             <Movie movie={movie} />
           </li>
         ))}
