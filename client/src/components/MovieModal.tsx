@@ -70,8 +70,7 @@ const MovieModal = () => {
             items-center ${history.length === 0 ? 'opacity-0' : ''}`}
             disabled={history.length === 0}
           >
-            <GrFormPreviousLink className='text-lg mr-1' />
-            Back
+            <GrFormPreviousLink className='text-lg mr' />
           </button>
 
           {/* Close modal button */}
@@ -87,23 +86,23 @@ const MovieModal = () => {
         </div>
 
         {/* Runtime */}
-        <div className='relative flex w-full justify-start text-[12px]'>
-          <span className='absolute -top-20 z-600 ml-2 sm:mr-6 bg-black/80 rounded-full py-1 px-2'>
+        <div className='relative flex w-full justify-start text-[12px] sm:text-[14px]'>
+          <span className='absolute -top-20 sm:-top-24 z-600 ml-2 sm:mr-6 bg-black/80 rounded-full py-1 px-2'>
             {movie.runtime ? formatRuntime(movie.runtime) : null}
           </span>
         </div>
         
         {/* Genres */}
         <div className='mt-2 relative'>
-          <ul className='flex gap-2 absolute -top-12 sm:-top-16 z-600 ml-2 flex-wrap text-[12px] xs:text-xl'>
-            {movie.genre_ids?.slice(0, 4).map((id) => (
+          <ul className='flex gap-2 max-w-[80vw] absolute -top-12 sm:-top-16 z-600 ml-2 flex-wrap text-[12px] sm:text-[14px]'>
+            {movie.genre_ids?.slice(0, 3).map((id) => (
               <li key={movieGenres[id]}
                 className='text-white bg-gradient-to-r from-purple-500 to-pink-500 
                   font-medium rounded-full px-2 py-1 text-center me-2 mb-2'>
                 {movieGenres[id]}
               </li>
             ))}
-            {movie.genres?.slice(0, 4).map((g) => (
+            {movie.genres?.slice(0, 3).map((g) => (
               <li key={g.name}
                 className='text-white bg-gradient-to-r from-purple-500 to-pink-500 
                   font-medium rounded-full px-2 py-1 text-center me-2 mb-2'>

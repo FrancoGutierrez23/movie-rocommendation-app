@@ -33,7 +33,7 @@ const SingleMovie: React.FC<MovieProps> = ({ movie, isModal }) => {
 
         {isModal ?
           <div>
-            <h2 className="text-xl sm:text-2xl font-bold mb-2 text-center px-12">{movie.title} {`(${movie.release_date?.slice(0, 4)})`}</h2>
+            <h2 className="text-xl sm:text-2xl font-bold mb-2 text-center px-15">{movie.title} {`(${movie.release_date?.slice(0, 4)})`}</h2>
           </div>
           :<div>
             <h3 className="text-2xl font-semibold">{movie.title}</h3>
