@@ -3,6 +3,7 @@ import { Movie as MovieType } from "../types/Movie";
 import Movie from "./Movie";
 import LoadingCard from "./LoadingCard";
 
+
 interface RelatedMoviesProps {
   currentMovieId: number;
   movie: MovieType;
@@ -13,9 +14,13 @@ const RelatedMovies = ({ currentMovieId, movie }: RelatedMoviesProps) => {
   const [relatedMovies, setRelatedMovies] = useState<any[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  const base_url = import.meta.env.DEV? 
+                    `/api/movies`:
+                    `${import.meta.env.VITE_API_URL}/api/movies`;
+
   useEffect(() => {
     if (currentMovieId && movie?.fetchedFullDetails) {
-      fetch(`/api/movies/${currentMovieId}/related`)
+      fetch(`${base_url}/${currentMovieId}/related`)
         .then((res) => res.json())
         .then((data) => {
           setRelatedMoviesIds(data.relatedMovies);
@@ -31,7 +36,7 @@ const RelatedMovies = ({ currentMovieId, movie }: RelatedMoviesProps) => {
       try {
         const results = await Promise.all(
           relatedMoviesIds.slice(1, 9).map((m) =>
-            fetch(`/api/movies/${m.id}`).then((res) => res.json())
+            fetch(`${base_url}/${m.id}`).then((res) => res.json())
           )
         );
         setRelatedMovies(results);
