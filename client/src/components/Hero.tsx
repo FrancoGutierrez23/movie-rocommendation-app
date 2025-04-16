@@ -68,7 +68,7 @@ const Hero: React.FC<HeroProps> = ({ movie, onNext, onPrev }) => {
         onClick={onPrev}
         className="absolute left-4 top-1/2 transform -translate-y-1/2 z-30 
                    bg-black bg-opacity-50 hover:bg-opacity-75 text-4xl
-                   rounded-full p-2 transition"
+                   rounded-full p-2 transition pb-5"
         aria-label="Previous movie"
       >
         &#8249;
@@ -79,7 +79,7 @@ const Hero: React.FC<HeroProps> = ({ movie, onNext, onPrev }) => {
         onClick={onNext}
         className="absolute right-4 top-1/2 transform -translate-y-1/2 z-30 
                    bg-black bg-opacity-50 hover:bg-opacity-75 text-4xl
-                   rounded-full p-2 transition"
+                   rounded-full p-2 transition pb-5"
         aria-label="Next movie"
       >
         &#8250;
