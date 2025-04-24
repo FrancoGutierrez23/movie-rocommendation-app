@@ -30,6 +30,11 @@ const Hero: React.FC<HeroProps> = ({ movie, onNext, onPrev }) => {
         </div>
       )}
       {/* Full-width background image */}
+      {isLoaded && (
+        <div>
+          
+        </div>
+      )}
       <img
         src={posterUrl}
         alt={movie.title}
@@ -54,7 +59,8 @@ const Hero: React.FC<HeroProps> = ({ movie, onNext, onPrev }) => {
       ></div>
 
       {/* Info container */}
-      <div className="absolute right-0 inset-0 flex items-center p-4 w-full md:w-1/2 md:ml-[45vw] justify-center md:justify-end md:pr-8">
+      {isLoaded && (
+        <div className="absolute right-0 inset-0 flex items-center p-4 w-full md:w-1/2 md:ml-[45vw] justify-center md:justify-end md:pr-8">
         <div className="text-white p-10">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-10">{movie.title}</h2>
           <p className="text-sm md:text-base max-w-md leading-relaxed line-clamp-3 sm:line-clamp-6">
@@ -62,6 +68,8 @@ const Hero: React.FC<HeroProps> = ({ movie, onNext, onPrev }) => {
           </p>
         </div>
       </div>
+      )}
+      
 
       {/* Left Arrow */}
       <button
